@@ -1,36 +1,234 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# InventarioApp - MVP
 
-## Getting Started
+Una aplicación moderna y fácil de usar para la gestión de inventarios, construida con Next.js, Tailwind CSS, ShadCN/UI y Zustand.
 
-First, run the development server:
+## 🚀 Características Principales
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### ✅ Gestión de Artículos
+- ➕ Crear nuevos artículos con nombre, cantidad y categoría
+- ✏️ Editar detalles de artículos existentes
+- 🗑️ Eliminar artículos del inventario
+- 🔍 Búsqueda en tiempo real por nombre
+- 📊 Controles rápidos para aumentar/disminuir cantidades
+
+### ✅ Seguimiento de Inventario
+- 📈 Incrementar/Decrementar stock con botones +/-
+- 📝 Entrada manual de cantidad para ajustes amplios
+- 📋 Vista clara de todos los niveles de inventario actuales
+- 📊 Dashboard con estadísticas en tiempo real
+
+### ✅ Alertas de Bajo Stock
+- ⚠️ Configurar nivel mínimo por artículo
+- 🔴 Indicadores visuales cuando el stock está bajo
+- 📋 Vista dedicada de todos los artículos con stock crítico
+- 🚨 Acciones rápidas de reabastecimiento
+
+### ✅ Categorías Básicas
+- 🏷️ Crear categorías personalizadas con colores e íconos
+- 🔄 Filtrar artículos por categoría
+- 🎨 Vista previa visual de las categorías
+- 📂 Gestión completa de categorías
+
+### ✅ Múltiples Inventarios
+- 📁 Crear y gestionar múltiples inventarios
+- 🔄 Cambiar entre inventarios fácilmente
+- 📊 Estadísticas independientes por inventario
+- 🎯 Un inventario activo a la vez
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Frontend Framework**: Next.js 15 (App Router)
+- **UI Library**: React 19
+- **Styling**: Tailwind CSS 4
+- **Components**: ShadCN/UI
+- **State Management**: Zustand
+- **Icons**: Lucide React
+- **Language**: JavaScript (sin TypeScript)
+- **Storage**: LocalStorage con persistencia automática
+
+## 📦 Instalación y Configuración
+
+### Prerequisitos
+- Node.js 18+ 
+- npm o pnpm
+
+### Pasos de Instalación
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone [tu-repositorio]
+   cd InventarioApp
+   ```
+
+2. **Instalar dependencias**
+   ```bash
+   npm install
+   ```
+
+3. **Ejecutar en modo desarrollo**
+   ```bash
+   npm run dev
+   ```
+
+4. **Abrir en el navegador**
+   ```
+   http://localhost:3000
+   ```
+
+## 📱 Uso de la Aplicación
+
+### Dashboard Principal
+- **Vista general**: Estadísticas del inventario activo
+- **Selector de inventario**: Cambiar entre diferentes inventarios
+- **Acceso rápido**: Botones para las funciones principales
+- **Artículos recientes**: Últimos artículos agregados
+- **Alertas**: Notificaciones de stock bajo
+
+### Gestión de Artículos
+1. **Crear artículo**: Clic en "Nuevo Artículo"
+2. **Buscar**: Usar la barra de búsqueda en tiempo real
+3. **Filtrar**: Seleccionar categoría específica
+4. **Editar cantidad**: Botones +/- o edición directa
+5. **Gestionar**: Editar o eliminar artículos individuales
+
+### Alertas de Stock
+- **Ver alertas**: Página dedicada `/bajo-stock`
+- **Niveles críticos**: Código de colores por urgencia
+- **Acciones rápidas**: Botones para restock inmediato
+- **Gestión**: Enlaces directos para editar artículos
+
+### Categorías
+- **Crear**: Nombre, color e ícono personalizado
+- **Vista previa**: Ver cómo se verá la categoría
+- **Estadísticas**: Cantidad de artículos por categoría
+- **Protección**: No eliminar categorías con artículos
+
+### Inventarios Múltiples
+- **Crear**: Nuevos inventarios con nombre y descripción
+- **Activar**: Cambiar el inventario de trabajo
+- **Estadísticas**: Ver resumen por inventario
+- **Protección**: No eliminar inventarios con contenido
+
+## 🗂️ Estructura del Proyecto
+
+```
+InventarioApp/
+├── app/                          # Páginas de Next.js (App Router)
+│   ├── articulos/               # Gestión de artículos
+│   │   ├── page.js             # Lista de artículos
+│   │   └── nuevo/page.js       # Crear artículo
+│   ├── bajo-stock/page.js      # Alertas de stock
+│   ├── categorias/page.js      # Gestión de categorías
+│   ├── inventarios/page.js     # Múltiples inventarios
+│   ├── layout.js               # Layout principal
+│   └── page.js                 # Dashboard principal
+├── components/                  # Componentes reutilizables
+│   ├── ui/                     # Componentes ShadCN
+│   └── layout/                 # Componentes de layout
+├── stores/                     # Zustand stores
+│   ├── articulos.js           # Estado de artículos
+│   ├── inventarios.js         # Estado de inventarios
+│   └── categorias.js          # Estado de categorías
+├── constants/                  # Constantes de la app
+│   └── defaultCategories.js   # Categorías por defecto
+└── lib/                       # Utilidades
+    └── utils.js               # Funciones auxiliares
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 💾 Almacenamiento de Datos
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### LocalStorage
+- **Persistencia automática**: Los datos se guardan localmente
+- **Sin sincronización**: No requiere conexión a internet
+- **Recuperación**: Los datos persisten entre sesiones
+- **Particionado**: Diferentes stores para diferentes tipos de datos
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Estructura de Datos
+```javascript
+// Artículos
+{
+  id: "timestamp",
+  nombre: "string",
+  cantidad: number,
+  cantidadMinima: number,
+  categoria: "string",
+  inventarioId: "string",
+  fechaCreacion: "ISO string",
+  ultimaModificacion: "ISO string"
+}
 
-## Learn More
+// Categorías
+{
+  id: "string",
+  nombre: "string",
+  color: "hex color",
+  icono: "string"
+}
 
-To learn more about Next.js, take a look at the following resources:
+// Inventarios
+{
+  id: "string",
+  nombre: "string",
+  descripcion: "string",
+  fechaCreacion: "ISO string"
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎯 Funcionalidades del MVP
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ✅ Incluido en el MVP
+- Gestión completa de artículos (CRUD)
+- Búsqueda y filtrado en tiempo real
+- Alertas de bajo stock configurables
+- Categorías personalizables
+- Múltiples inventarios
+- Dashboard con estadísticas
+- Interfaz responsive y moderna
+- Almacenamiento local persistente
 
-## Deploy on Vercel
+### ❌ No Incluido en el MVP
+- Escaneo de códigos de barras
+- Seguimiento multi-ubicación
+- Reportes y análisis avanzados
+- Cuentas de usuario/autenticación
+- Exportación de datos
+- Notificaciones push
+- Información de proveedores
+- Seguimiento de costos
+- Fotos de artículos
+- Sincronización en la nube
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔄 Próximas Mejoras (Post-MVP)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Autenticación de usuarios**
+2. **Base de datos en la nube**
+3. **Reportes y análisis**
+4. **Exportación a Excel/PDF**
+5. **Códigos de barras**
+6. **Aplicación móvil nativa**
+7. **Multi-ubicación**
+8. **Notificaciones automáticas**
+
+## 🤝 Contribución
+
+1. Fork el proyecto
+2. Crea tu rama de feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
+
+## 🆘 Soporte
+
+Si tienes preguntas o necesitas ayuda:
+
+1. Revisa la documentación
+2. Busca en los issues existentes
+3. Crea un nuevo issue con detalles específicos
+
+---
+
+**Desarrollado con ❤️ para simplificar la gestión de inventarios**
