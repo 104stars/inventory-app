@@ -109,31 +109,6 @@ Una aplicación moderna y fácil de usar para la gestión de inventarios, constr
 - **Estadísticas**: Ver resumen por inventario
 - **Protección**: No eliminar inventarios con contenido
 
-## 🗂️ Estructura del Proyecto
-
-```
-InventarioApp/
-├── app/                          # Páginas de Next.js (App Router)
-│   ├── articulos/               # Gestión de artículos
-│   │   ├── page.js             # Lista de artículos
-│   │   └── nuevo/page.js       # Crear artículo
-│   ├── bajo-stock/page.js      # Alertas de stock
-│   ├── categorias/page.js      # Gestión de categorías
-│   ├── inventarios/page.js     # Múltiples inventarios
-│   ├── layout.js               # Layout principal
-│   └── page.js                 # Dashboard principal
-├── components/                  # Componentes reutilizables
-│   ├── ui/                     # Componentes ShadCN
-│   └── layout/                 # Componentes de layout
-├── stores/                     # Zustand stores
-│   ├── articulos.js           # Estado de artículos
-│   ├── inventarios.js         # Estado de inventarios
-│   └── categorias.js          # Estado de categorías
-├── constants/                  # Constantes de la app
-│   └── defaultCategories.js   # Categorías por defecto
-└── lib/                       # Utilidades
-    └── utils.js               # Funciones auxiliares
-```
 
 ## 💾 Almacenamiento de Datos
 
@@ -219,7 +194,7 @@ InventarioApp/
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
+Este proyecto está bajo la Licencia MIT
 
 ## 🆘 Soporte
 
