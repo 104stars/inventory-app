@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { toast } from 'sonner'
 import useArticulosStore from '@/stores/articulos'
 import useCategoriasStore from '@/stores/categorias'
 import useInventariosStore from '@/stores/inventarios'
@@ -23,20 +24,48 @@ export default function ArticulosPage() {
     incrementarCantidad,
     decrementarCantidad,
     deleteArticulo,
-    initializeFilters
+    initializeFilters,
+    syncInventarioActivo,
+    getArticuloById
   } = useArticulosStore()
   
   const { categorias } = useCategoriasStore()
+  const { inventarioActivo: inventarioActivoStore } = useInventariosStore()
   
   const [showFilters, setShowFilters] = useState(false)
 
   useEffect(() => {
+    // Sincronizar el inventario activo entre stores
+    syncInventarioActivo(inventarioActivoStore)
     initializeFilters()
-  }, [initializeFilters])
+  }, [initializeFilters, syncInventarioActivo, inventarioActivoStore])
 
   const handleDeleteArticulo = (id, nombre) => {
     if (window.confirm(`¿Estás seguro de que quieres eliminar "${nombre}"?`)) {
       deleteArticulo(id)
+      toast.success('Artículo eliminado', {
+        description: `${nombre} ha sido eliminado del inventario`
+      })
+    }
+  }
+
+  const handleIncrementarCantidad = (id) => {
+    const articulo = getArticuloById(id)
+    if (articulo) {
+      incrementarCantidad(id)
+      toast.success('Cantidad actualizada', {
+        description: `Stock de ${articulo.nombre} incrementado`
+      })
+    }
+  }
+
+  const handleDecrementarCantidad = (id) => {
+    const articulo = getArticuloById(id)
+    if (articulo) {
+      decrementarCantidad(id)
+      toast.success('Cantidad actualizada', {
+        description: `Stock de ${articulo.nombre} decrementado`
+      })
     }
   }
 
@@ -213,7 +242,7 @@ export default function ArticulosPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => decrementarCantidad(articulo.id)}
+                      onClick={() => handleDecrementarCantidad(articulo.id)}
                       disabled={articulo.cantidad <= 0}
                     >
                       <Minus className="w-4 h-4" />
@@ -227,7 +256,7 @@ export default function ArticulosPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => incrementarCantidad(articulo.id)}
+                      onClick={() => handleIncrementarCantidad(articulo.id)}
                     >
                       <Plus className="w-4 h-4" />
                     </Button>

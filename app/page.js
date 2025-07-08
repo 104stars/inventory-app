@@ -18,15 +18,18 @@ export default function HomePage() {
     articulos, 
     getArticulosBajoStock, 
     initializeFilters,
-    inventarioActivo 
+    inventarioActivo,
+    syncInventarioActivo
   } = useArticulosStore()
   
-  const { getInventarioActivo } = useInventariosStore()
+  const { getInventarioActivo, inventarioActivo: inventarioActivoStore } = useInventariosStore()
 
   useEffect(() => {
+    // Sincronizar el inventario activo entre stores
+    syncInventarioActivo(inventarioActivoStore)
     initializeFilters()
     setIsHydrated(true)
-  }, [initializeFilters])
+  }, [initializeFilters, syncInventarioActivo, inventarioActivoStore])
 
   const inventarioActual = getInventarioActivo()
   const articulosBajoStock = getArticulosBajoStock()

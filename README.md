@@ -205,5 +205,3 @@ Si tienes preguntas o necesitas ayuda:
 3. Crea un nuevo issue con detalles específicos
 
 ---
-
-**Desarrollado con ❤️ para simplificar la gestión de inventarios**

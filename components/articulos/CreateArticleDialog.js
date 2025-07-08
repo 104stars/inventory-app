@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import useArticulosStore from '@/stores/articulos'
 import useCategoriasStore from '@/stores/categorias'
 import useInventariosStore from '@/stores/inventarios'
@@ -89,7 +90,12 @@ export default function CreateArticleDialog({ children, onSuccess }) {
         inventarioId: formData.inventarioId
       }
       
-      addArticulo(articulo)
+      const newArticulo = addArticulo(articulo)
+      
+      // Mostrar notificación de éxito
+      toast.success('¡Artículo creado exitosamente!', {
+        description: `${articulo.nombre} ha sido agregado al inventario`,
+      })
       
       // Resetear formulario
       setFormData({
@@ -104,10 +110,13 @@ export default function CreateArticleDialog({ children, onSuccess }) {
       
       // Callback de éxito si se proporciona
       if (onSuccess) {
-        onSuccess(articulo)
+        onSuccess(newArticulo)
       }
     } catch (error) {
       console.error('Error al crear artículo:', error)
+      toast.error('Error al crear artículo', {
+        description: 'Ocurrió un error inesperado. Por favor, intenta nuevamente.'
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -155,7 +164,7 @@ export default function CreateArticleDialog({ children, onSuccess }) {
             <Label htmlFor="inventario">Inventario de Destino *</Label>
             <Select value={formData.inventarioId} onValueChange={(value) => handleChange('inventarioId', value)}>
               <SelectTrigger className={errors.inventarioId ? 'border-red-500' : ''}>
-                <SelectValue placeholder="Selecciona un inventario" />
+                <SelectValue placeholder="Seleccionar inventario" />
               </SelectTrigger>
               <SelectContent>
                 {inventarios.map(inventario => (

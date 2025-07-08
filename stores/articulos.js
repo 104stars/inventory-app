@@ -31,6 +31,8 @@ const useArticulosStore = create(
             filteredArticulos: get().filterArticulos(newArticulos)
           }
         })
+        
+        return newArticulo
       },
 
       updateArticulo: (id, updates) => {
@@ -110,6 +112,17 @@ const useArticulosStore = create(
         }))
       },
 
+      // Función para sincronizar con el store de inventarios
+      syncInventarioActivo: (inventarioId) => {
+        const state = get()
+        if (state.inventarioActivo !== inventarioId) {
+          set({
+            inventarioActivo: inventarioId,
+            filteredArticulos: get().filterArticulos(state.articulos)
+          })
+        }
+      },
+
       // Funciones auxiliares
       filterArticulos: (articulos) => {
         const { searchTerm, selectedCategoria, inventarioActivo } = get()
@@ -151,7 +164,6 @@ const useArticulosStore = create(
       name: 'inventario-articulos',
       partialize: (state) => ({
         articulos: state.articulos,
-        inventarioActivo: state.inventarioActivo,
       }),
     }
   )

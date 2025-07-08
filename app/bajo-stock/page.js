@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { toast } from 'sonner'
 import useArticulosStore from '@/stores/articulos'
 import useInventariosStore from '@/stores/inventarios'
 import CreateArticleDialog from '@/components/articulos/CreateArticleDialog'
@@ -16,14 +17,18 @@ export default function BajoStockPage() {
     getArticulosBajoStock, 
     incrementarCantidad, 
     decrementarCantidad,
-    initializeFilters 
+    initializeFilters,
+    syncInventarioActivo,
+    getArticuloById
   } = useArticulosStore()
   
-  const { getInventarioActivo } = useInventariosStore()
+  const { getInventarioActivo, inventarioActivo: inventarioActivoStore } = useInventariosStore()
 
   useEffect(() => {
+    // Sincronizar el inventario activo entre stores
+    syncInventarioActivo(inventarioActivoStore)
     initializeFilters()
-  }, [initializeFilters])
+  }, [initializeFilters, syncInventarioActivo, inventarioActivoStore])
 
   const articulosBajoStock = getArticulosBajoStock()
   const inventarioActual = getInventarioActivo()
@@ -50,7 +55,23 @@ export default function BajoStockPage() {
   }
 
   const handleIncrementStock = (id, amount = 10) => {
-    incrementarCantidad(id, amount)
+    const articulo = getArticuloById(id)
+    if (articulo) {
+      incrementarCantidad(id, amount)
+      toast.success('Stock actualizado', {
+        description: `Stock de ${articulo.nombre} incrementado en ${amount} unidades`
+      })
+    }
+  }
+
+  const handleDecrementStock = (id, amount = 1) => {
+    const articulo = getArticuloById(id)
+    if (articulo) {
+      decrementarCantidad(id, amount)
+      toast.success('Stock actualizado', {
+        description: `Stock de ${articulo.nombre} decrementado en ${amount} unidad${amount > 1 ? 'es' : ''}`
+      })
+    }
   }
 
   return (
@@ -280,7 +301,7 @@ export default function BajoStockPage() {
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => decrementarCantidad(articulo.id)}
+                                onClick={() => handleDecrementStock(articulo.id)}
                                 disabled={articulo.cantidad <= 0}
                               >
                                 <Minus className="w-4 h-4" />
@@ -291,7 +312,7 @@ export default function BajoStockPage() {
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => incrementarCantidad(articulo.id)}
+                                onClick={() => handleIncrementStock(articulo.id)}
                               >
                                 <Plus className="w-4 h-4" />
                               </Button>
