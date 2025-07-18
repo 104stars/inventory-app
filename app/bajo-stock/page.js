@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import useArticulosStore from '@/stores/articulos'
 import useInventariosStore from '@/stores/inventarios'
@@ -13,6 +13,8 @@ import { ArrowLeft, AlertTriangle, Plus, Minus, TrendingUp, Package, Edit } from
 import Link from 'next/link'
 
 export default function BajoStockPage() {
+  const [isHydrated, setIsHydrated] = useState(false)
+  
   const { 
     getArticulosBajoStock, 
     incrementarCantidad, 
@@ -29,6 +31,11 @@ export default function BajoStockPage() {
     syncInventarioActivo(inventarioActivoStore)
     initializeFilters()
   }, [initializeFilters, syncInventarioActivo, inventarioActivoStore])
+
+  useEffect(() => {
+    // Set hydrated to true after component mounts
+    setIsHydrated(true)
+  }, [])
 
   const articulosBajoStock = getArticulosBajoStock()
   const inventarioActual = getInventarioActivo()
