@@ -100,7 +100,7 @@ export default function DeleteInventoryModal({
 
               <div className="space-y-2">
                 <Label htmlFor="confirmation" className="text-sm font-medium">
-                  Para confirmar, escribe el nombre del inventario: <span className="font-bold">"{inventario?.nombre}"</span>
+                  Para confirmar, escribe el nombre del inventario: <span className="font-bold">&quot;{inventario?.nombre}&quot;</span>
                 </Label>
                 <Input
                   id="confirmation"
@@ -118,7 +118,7 @@ export default function DeleteInventoryModal({
           ) : (
             <div className="p-4 border border-green-200 rounded-lg bg-green-50">
               <p className="text-sm text-green-800">
-                ¿Estás seguro de que quieres eliminar el inventario "{inventario?.nombre}"?
+                ¿Estás seguro de que quieres eliminar el inventario &quot;{inventario?.nombre}&quot;?
               </p>
             </div>
           )}
